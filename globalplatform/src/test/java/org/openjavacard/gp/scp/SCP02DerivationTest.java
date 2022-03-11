@@ -75,6 +75,7 @@ public class SCP02DerivationTest extends TestCase {
         Assert.assertArrayEquals(HexUtil.hexToBytes("0e51fdf196141f227a57bd154012fd39"), kekKey.getSecret());
     }
 
+    // scp test
     @Test
     public void testDeriveSCP02_0002_jaydon() {
         GPKeySet derived = SCP02Derivation.deriveSessionKeys(SCP02_15, GPKeySet.GLOBALPLATFORM,HexUtil.hexToBytes("0007"));
