@@ -76,6 +76,29 @@ public class SCP02DerivationTest extends TestCase {
     }
 
     @Test
+    public void testDeriveSCP02_0002_jaydon() {
+        GPKeySet derived = SCP02Derivation.deriveSessionKeys(SCP02_15, GPKeySet.GLOBALPLATFORM,HexUtil.hexToBytes("0007"));
+        Assert.assertEquals(0, derived.getKeyVersion());
+        GPKey encKey = derived.getKeyByUsage(GPKeyUsage.ENC);
+        Assert.assertEquals(GPKeyUsage.ENC, encKey.getUsage());
+        Assert.assertEquals(GPKeyCipher.DES3, encKey.getCipher());
+        System.out.println("HexUtil.bytesToHex(encKey.getSecret()) = " + HexUtil.bytesToHex(encKey.getSecret()));
+
+        // Assert.assertArrayEquals(HexUtil.hexToBytes("25c9794a1205ff244f5fa0378d2f8d59"), encKey.getSecret());
+        GPKey macKey = derived.getKeyByUsage(GPKeyUsage.MAC);
+        Assert.assertEquals(GPKeyUsage.MAC, macKey.getUsage());
+        Assert.assertEquals(GPKeyCipher.DES3, macKey.getCipher());
+        // Assert.assertArrayEquals(HexUtil.hexToBytes("9bed98891580c3b245fe9ec58bfa8d2a"), macKey.getSecret());
+        System.out.println("HexUtil.bytesToHex(macKey.getSecret()) = " + HexUtil.bytesToHex(macKey.getSecret()));
+
+        GPKey kekKey = derived.getKeyByUsage(GPKeyUsage.KEK);
+        Assert.assertEquals(GPKeyUsage.KEK, kekKey.getUsage());
+        Assert.assertEquals(GPKeyCipher.DES3, kekKey.getCipher());
+        System.out.println("HexUtil.bytesToHex(kekKey.getSecret()) = " + HexUtil.bytesToHex(kekKey.getSecret()));
+        // Assert.assertArrayEquals(HexUtil.hexToBytes("0e51fdf196141f227a57bd154012fd39"), kekKey.getSecret());
+    }
+
+    @Test
     public void testDeriveSCP02_007F() {
         GPKeySet derived = SCP02Derivation.deriveSessionKeys(SCP02_15, GPKeySet.GLOBALPLATFORM,HexUtil.hexToBytes("007F"));
         Assert.assertEquals(0, derived.getKeyVersion());
